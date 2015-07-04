@@ -1,0 +1,272 @@
+---
+title: "cricketr: A R package for analyzing performances of cricketers"
+author: "Tinniam V Ganesh"
+date: "Friday, July 03, 2015"
+output: html_document
+---
+*Yet all experience is an arch wherethro'  
+Gleams that untravell'd world whose margin fades  
+For ever and forever when I move.  
+How dull it is to pause, to make an end,  
+To rust unburnish'd, not to shine in use!*  
+
+                Ulysses by Alfred Tennyson
+                
+#Introduction
+This is an introductory post in which I introduce a cricketing package **'cricketr'** whicj I have created. This package was a natural culmination to many earlier posts on cricketers and my completing 9 modules of an absorbing topics in Data Science Specialization, from John Hopkins University at Coursera. The thought of creating this package struck me some time back,  and I have finally been able to bring this to fruition. 
+
+So here it is. My R package **'cricketr!!!'**
+
+This package uses the statistics info available in [ESPN Cricinfo Statsguru](http://stats.espncricinfo.com/ci/engine/stats/index.html). The current version of this package only uses data from test cricket. I plan to develop functionality for One-day and Twenty20 cricket later.
+
+You should be able to install the package from GitHub and use the many functions available in the package. Please mindful of the [ESPN Cricinfo Terms of Use](http://www.espncricinfo.com/ci/content/site/company/terms_use.html) 
+
+#The **cricketr** package
+The cricketr package has several functions that perform several different analyses on both batsman and bowlers. The package has function that plot  percentage frequency runs or wickets, runs likelihood for a batsman, relative run/strike rates of batsman and relative performance/econmony rate for bowlers are available. 
+
+Other interesting functions include batting performance moving average, forecast  and a function to check whether the batsmans in in-form or out-of-form.
+
+The data for a particular player can be obtained with the getPlayerData() function. To do you will need to go to [ESPN CricInfo Player](http://www.espncricinfo.com/ci/content/player/index.html) and type in the name of the player for e.g Ricky Ponting, Sachin Tendulkar etc. This will bring up a page which have the profile number for the player e.g. for Sachin Tendulkar this would be http://www.espncricinfo.com/india/content/player/35320.html. Hence, Sachin's profile is 35320. This can be used to get the data for Tendulkar as shown below
+
+The cricketr package can be installed from GitHub with
+```{r message=FALSE,warning=FALSE}
+library(devtools)
+install_github("tvganesh/cricketr")
+library(cricketr)
+tendulkar <- getPlayerData(35320,dir="..",file="tendulkar.csv",type="batting",homeOrAway=c(1,2),
+                           result=c(1,2,4))
+```
+
+**Important Note**
+This needs to be done only once for a player. This function stores the player's data in a CSV file (for e.g. tendulkar.csv as above) which can then be reused for all other functions. Once we have the data for the players many analyses can be done. This post will use the stored CSV file obtained with a prior getPlayerData for all subsequent analyses
+
+## Sachin Tendulkar's performance -  Basic Analyses
+The 3 plots below provide the following for Tendulkar
+
+1. Frequency percentage of runs in each run range over the whole career
+2. Mean Strike Rate for runs scored in the given range
+3. A his
+togram of runs frequency percentages in runs ranges
+
+```{r tendulkar-batting,cache=TRUE}
+par(mfrow=c(1,3))
+par(mar=c(4,4,2,2))
+batsmanRunsFreqPerf("./tendulkar.csv","Sachin Tendulkar")
+batsmanMeanStrikeRate("./tendulkar.csv","Sachin Tendulkar")
+batsmanRunsRanges("./tendulkar.csv","Sachin Tendulkar")
+dev.off()
+```
+
+## 3D scatter plot and prediction plane
+The plots below show the 3D scatter plot of Sachin's Runs versus Balls Faced and Minutes at crease. A linear regression model is then fitted between Runs and Balls Faced + Minutes at crease
+
+```{r tendulkar-3d,cache=TRUE}
+battingPerf3d("./tendulkar.csv","Sachin Tendulkar")
+```
+
+## Predict runs for batsman given Balls Faced and Minutes at Crease
+The above linear regression model can be used for predicting the runs for the batsman given the Balls Faced and Minutes at crease as follows
+
+```{r}
+BF <- seq( 10, 100,length=10)
+Mins <- seq(30,200,length=10)
+newDF <- data.frame(BF,Mins)
+batsmanRunsPredict("./tendulkar.csv","Sachin Tendulkar",newdataframe=newDF)
+```
+
+## Highest Runs Likelihood
+The plot below shows the Runs Likelihood for a batsman. For this the performance of Sachin is plotted as a 3D scatter plot with Runs versus Balls Faced + Minutes at crease. K-Means. The centroids of 3 clusters are conputed and plotted.  In this plot Sachin Tendulkar's highest tendencies are computed and plotted using K-Means
+```{r tendulkar-kmeans,cache=TRUE}
+batsmanRunsLikelihood("./tendulkar.csv","Sachin Tendulkar")
+```
+
+# A look at the Top 4 batsman - Tendulkar, Kallis, Ponting and Sangakkara
+The batsmen with the most hundreds in test cricket are
+
+1. Sachin Tendulkar :**Average:53.78,100's - 51, 50's - 68**
+2. Jacques Kallis : **Average: 55.47, 100's - 45, 50's - 58**
+3. Ricky Ponting : **Average: 51.85, 100's - 41 , 50's - 62**
+4. Kumara Sangakarra: **Average: 58.04 ,100's - 38 , 50's - 52** 
+
+in that order. 
+
+
+The following plots take a closer at their performances. The box plots show the mean (red line)
+and median (blue line). The two ends of the boxplot display the 25th and 75th percentile.
+
+## Box Histogram Plot
+This plot shows a combined boxplot of the Runs ranges  and a histogram of the Runs Frequency
+```{r tkps-boxhist,cache=TRUE}
+batsmanPerfBoxHist("./tendulkar.csv","Sachin Tendulkar")
+batsmanPerfBoxHist("./kallis.csv","Jacques Kallis")
+batsmanPerfBoxHist("./ponting.csv","Ricky Ponting")
+batsmanPerfBoxHist("./sangakkara.csv","K Sangakkara")
+
+```
+
+## Contribution to won and lost matches
+The plot below shows the contribution of Tendulkar, Kallis, Ponting and Sangakarra in matches won and lost. The plots show the range of runs scored as a boxplot (25th & 75th percentile) and the mean
+scored. The total matches won and lost are also printed in the plot.
+
+All the players have scored more in the matches they won than the matches they lost.
+Ricky Ponting is the only batsman who seems to have more matches won to his credit than others.
+This could also be because he was a member of strong Australian team
+
+```{r tkps-wonlost,cache=TRUE}
+par(mfrow=c(2,2))
+par(mar=c(4,4,2,2))
+batsmanContributionWonLost("35320","Sachin Tendulkar")
+batsmanContributionWonLost("45789","Jacques Kallis")
+batsmanContributionWonLost("7133","Ricky Ponting")
+batsmanContributionWonLost("50710","K Sangakarra")
+dev.off()
+
+```
+
+## Relative Mean Strike Rate plot
+The plot below compares the Mean Strike Rate of the batsman for each of the runs ranges of 10 and plots them. The plot indicate the following
+Range 0 - 50 Runs - Ponting leads followed by Tendulkar
+Range 50 -100 Runs - Ponting followed by Sangakkara
+Range 100 - 150 - Ponting and then Tendulkar
+```{r tkps-relSR,cache=TRUE}
+frames <- list("./tendulkar.csv","./kallis.csv","ponting.csv","sangakkara.csv")
+names <- list("Tendulkar","Kallis","Ponting","Sangakkara")
+relativeBatsmanSR(frames,names)
+
+```
+
+
+## Relative Runs Frequency plot
+The plot below gives the relative Runs Frequency Percetages for each 10 run bucket. The plot below show
+
+Sangakkara leads followed by Ponting
+
+```{r tkps-relRunFreq,cache=TRUE}
+frames <- list("./tendulkar.csv","./kallis.csv","ponting.csv","sangakkara.csv")
+names <- list("Tendulkar","Kallis","Ponting","Sangakkara")
+relativeRunsFreqPerf(frames,names)
+
+```
+
+## Moving Average of runs in career
+Take a look at the Moving Average across the career of the Top 4. 
+Clearly 
+. Kallis and Sangakkara have a few more years of great batting ahead. They seem to average on 50. 
+. Tendulkar and Ponting definitely show a slump in the later years
+
+```{r tkps-ma,cache=TRUE}
+par(mfrow=c(2,2))
+par(mar=c(4,4,2,2))
+batsmanMovingAverage("./tendulkar.csv","Sachin Tendulkar")
+batsmanMovingAverage("./kallis.csv","Jacques Kallis")
+batsmanMovingAverage("./ponting.csv","Ricky Ponting")
+batsmanMovingAverage("./sangakkara.csv","K Sangakkara")
+dev.off()
+```
+
+# Future Runs forecast 
+Here are plots that forecast how the batsman will perform in future. In this case 90% of the career runs trend is uses as the training set. the remaining 10% is the test set. 
+
+A Holt-Winters forecating model is used to forecast future performance based on the 90% training set. The forecated runs trend is plotted. The test set is also plotted to see how close the forecast and the actual matches
+
+Take a look at the runs forecasted for the batsman below.
+
+- Tendulkar's forecasted performance seems to tally with his actual performance with an average of 50
+- Kallis the forecasted runs are higher than the actual runs he scored
+- Ponting seems to have a good run in the future
+- Sangakkara has a decent run in the future averaging 50 runs
+```{r tkps-perffcst}
+par(mfrow=c(2,2))
+par(mar=c(4,4,2,2))
+batsmanPerfForecast("./tendulkar.csv","Sachin Tendulkar")
+batsmanPerfForecast("./kallis.csv","Jacques Kallis")
+batsmanPerfForecast("./ponting.csv","Ricky Ponting")
+batsmanPerfForecast("./sangakkara.csv","K Sangakkara")
+dev.off()
+```
+
+## Check Batsman In-Form or Out-of-Form
+The below computation uses Null Hypothesis testing and p-value to determine if the batsman is in-form or out-of-form. For this 90% of the career runs is chosen as the population and the mean computed. The last 10% is chosen to be the sample set and the sample Mean and the sample Standard Deviation are caculated.
+
+The Null Hypothesis (H0) assumes that the batsman continues to stay in-form where the sample mean is within 95% confidence interval of population mean
+The Alternative (Ha) assumes that the batsman is out of form the sample mean is beyond the 95% confidence interval of the population mean.
+
+A significance value of 0.05 is chosen and p-value us computed
+If p-value >= .05 - Batsman In-Form
+If p-value < 0.05 - Batsman Out-of-Form
+
+**Note** Ideally the p-value should be done for a population that follows the Normal Distribution. But the runs population is usually left skewed. So some correction may be needed. I will revisit this later
+
+This is done for the Top 4 batsman
+```{r }
+checkBatsmanInForm("./tendulkar.csv","Sachin Tendulkar")
+checkBatsmanInForm("./kallis.csv","Jacques Kallis")
+checkBatsmanInForm("./ponting.csv","Ricky Ponting")
+checkBatsmanInForm("./sangakkara.csv","K Sangakkara")
+
+```
+
+
+# Analysis of Top 3 wicket takers
+The top 3 wicket takes in test history are 
+1. M Muralitharan:Wickets: 800, Average = 22.72, Economy Rate - 2.47
+2. Shane Warne: Wickets: 708, Average = 25.41, Economy Rate - 2.65
+3. Anil Kumble: Wickets: 619, Average = 29.65, Economy Rate - 2.69 
+
+How do Anil Kumble, Shane Warne and M Muralitharan compare with one another with respect to
+wickets taken and the Economy Rate. The next set of  plots compute and plot precisely these
+analyses.
+
+## Wicket Frequency Plot
+This plot below computes the percentage frequency of number of wickets taken for e.g
+1 wicket x%, 2 wickets y% etc and plots them as a continuous line 
+
+```{r relBowlFP,cache =TRUE}
+par(mfrow=c(1,3))
+par(mar=c(4,4,2,2))
+bowlerWktsFreqPercent("./kumble.csv","Anil Kumble")
+bowlerWktsFreqPercent("./warne.csv","Shane Warne")
+bowlerWktsFreqPercent("./murali.csv","M Muralitharan")
+dev.off()
+```
+
+
+## Relative Wickets Frequency Percentage
+The Relative Wickets Percentage plot shows that M Muralitharan has a large percentage of wickets in
+the 3-8 wicket range
+
+```{r relBowlPerf,cache=TRUE}
+frames <- list("./kumble.csv","./murali.csv","warne.csv")
+names <- list("Anil KUmble","M Muralitharan","Shane Warne")
+relativeBowlingPerf(frames,names)
+```
+
+# Relative Economy Rate against wickets taken
+Clearly from the plot below it can be seen that Muralitharan has the best Economy Rate among the
+three
+```{r relBowlER}
+frames <- list("./kumble.csv","./murali.csv","warne.csv")
+names <- list("Anil KUmble","M Muralitharan","Shane Warne")
+relativeBowlingER(frames,names)
+```
+
+## Wickets taken moving average
+From th eplot below it can be see
+1. Shane Warne's performance at the time of his retirement was still at a peak of 3 wickets
+2. M Muralitharan seems to have become ineffective over time with his peak years being 2004-2006
+3. Anil Kumble also seems to slump down and become less effective.
+```{r tkps-bowlma,cache=TRUE}
+par(mfrow=c(1,3))
+par(mar=c(4,4,2,2))
+bowlerMovingAverage("./kumble.csv","Anil Kumble")
+bowlerMovingAverage("./warne.csv","Shane Warne")
+bowlerMovingAverage("./murali.csv","M Muralitharan")
+
+dev.off()
+```
+
+#Conclusion
+The plots above capture some of teh capabilities and features of my **cricketr** package. Feel free to install the package and try it out. Please do keep in mind ESPN Cricinfo's Terms of Use.
+
+Hope you have fun using the cricketr package as I had in developing it.
+
