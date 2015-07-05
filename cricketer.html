@@ -67,7 +67,9 @@ img {
 </div>
 
 
-<p><em>Yet all experience is an arch wherethro’<br />Gleams that untravell’d world whose margin fades<br />For ever and forever when I move.<br />How dull it is to pause, to make an end,<br />To rust unburnish’d, not to shine in use!</em><br /> Ulysses by Alfred Tennyson</p>
+<p><em>Yet all experience is an arch wherethro’<br />Gleams that untravell’d world whose margin fades<br />For ever and forever when I move.<br />How dull it is to pause, to make an end,<br />To rust unburnish’d, not to shine in use!</em></p>
+<pre><code>            Ulysses by Alfred Tennyson
+            </code></pre>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>This is an introductory post in which I introduce a cricketing package <strong>‘cricketr’</strong> whicj I have created. This package was a natural culmination to many earlier posts on cricketers and my completing 9 modules of an absorbing topics in Data Science Specialization, from John Hopkins University at Coursera. The thought of creating this package struck me some time back, and I have finally been able to bring this to fruition.</p>
@@ -82,8 +84,9 @@ img {
 <p>The data for a particular player can be obtained with the getPlayerData() function. To do you will need to go to <a href="http://www.espncricinfo.com/ci/content/player/index.html">ESPN CricInfo Player</a> and type in the name of the player for e.g Ricky Ponting, Sachin Tendulkar etc. This will bring up a page which have the profile number for the player e.g. for Sachin Tendulkar this would be <a href="http://www.espncricinfo.com/india/content/player/35320.html" class="uri">http://www.espncricinfo.com/india/content/player/35320.html</a>. Hence, Sachin’s profile is 35320. This can be used to get the data for Tendulkar as shown below</p>
 <p>The cricketr package can be installed from GitHub with</p>
 <pre class="r"><code>library(devtools)
-install_github(&quot;tvganesh/cricketr&quot;)
-library(cricketr)
+install_github(&quot;tvganesh/cricketr&quot;)</code></pre>
+<pre><code>## package 'R6' successfully unpacked and MD5 sums checked</code></pre>
+<pre class="r"><code>library(cricketr)
 tendulkar &lt;- getPlayerData(35320,dir=&quot;..&quot;,file=&quot;tendulkar.csv&quot;,type=&quot;batting&quot;,homeOrAway=c(1,2),
                            result=c(1,2,4))</code></pre>
 <p><strong>Important Note</strong> This needs to be done only once for a player. This function stores the player’s data in a CSV file (for e.g. tendulkar.csv as above) which can then be reused for all other functions. Once we have the data for the players many analyses can be done. This post will use the stored CSV file obtained with a prior getPlayerData for all subsequent analyses</p>
@@ -349,6 +352,14 @@ bowlerMovingAverage(&quot;./murali.csv&quot;,&quot;M Muralitharan&quot;)</code><
 <h1>Conclusion</h1>
 <p>The plots above capture some of teh capabilities and features of my <strong>cricketr</strong> package. Feel free to install the package and try it out. Please do keep in mind ESPN Cricinfo’s Terms of Use.</p>
 <p>Hope you have fun using the cricketr package as I had in developing it.</p>
+<p>Also see my other posts in R</p>
+<ol style="list-style-type: decimal">
+<li><a href="https://gigadom.wordpress.com/2015/01/05/a-peek-into-literacy-in-india-statistical-learning-with-r/">A peek into literacy in India: Statistical Learning with R</a></li>
+<li><a href="https://gigadom.wordpress.com/2015/01/16/a-crime-map-of-india-in-r-crime-against-women/">A crime map of India in R - Crimes against women</a></li>
+<li><a href="https://gigadom.wordpress.com/2015/02/06/analyzing-crickets-batting-legends-through-the-mirage-with-r/">Analyzing cricket’s batting legends - Through the mirage with R</a></li>
+<li><a href="https://gigadom.wordpress.com/2015/02/23/masters-of-spin-unraveling-the-web-with-r/">Masters of Spin: Unraveling the web with R</a></li>
+<li><a href="https://gigadom.wordpress.com/2015/03/24/mirror-mirror-the-best-batsman-of-them-all/">Mirror, mirror . the best batsman of them all?</a></li>
+</ol>
 </div>
 
 
