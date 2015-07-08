@@ -77,7 +77,7 @@ batsmanRunsPredict("./tendulkar.csv","Sachin Tendulkar",newdataframe=newDF)
 ## Highest Runs Likelihood
 The plot below shows the Runs Likelihood for a batsman. For this the performance of Sachin is plotted as a 3D scatter plot with Runs versus Balls Faced + Minutes at crease. K-Means. The centroids of 3 clusters are conputed and plotted.  In this plot Sachin Tendulkar's highest tendencies are computed and plotted using K-Means
 ```{r tendulkar-kmeans,cache=TRUE}
-batsmanRunsLikelihood("./tendulkar.csv","Sachin Tendulkar")
+batsmanRunsLikelihood("./tendulkar.csv","Tendulkar")
 ```
 
 # A look at the Top 4 batsman - Tendulkar, Kallis, Ponting and Sangakkara
@@ -112,13 +112,13 @@ All the players have scored more in the matches they won than the matches they l
 Ricky Ponting is the only batsman who seems to have more matches won to his credit than others.
 This could also be because he was a member of strong Australian team
 
-```{r tkps-wonlost,cache=TRUE}
+```{r tkps-wonlost}
 par(mfrow=c(2,2))
 par(mar=c(4,4,2,2))
-batsmanContributionWonLost("35320","Sachin Tendulkar")
-batsmanContributionWonLost("45789","Jacques Kallis")
-batsmanContributionWonLost("7133","Ricky Ponting")
-batsmanContributionWonLost("50710","K Sangakarra")
+batsmanContributionWonLost("35320","Tendulkar")
+batsmanContributionWonLost("45789","Kallis")
+batsmanContributionWonLost("7133","Ponting")
+batsmanContributionWonLost("50710","Sangakarra")
 dev.off()
 
 ```
@@ -206,6 +206,50 @@ checkBatsmanInForm("./sangakkara.csv","K Sangakkara")
 
 ```
 
+# 3D plot of Runs vs Balls Faced and Minutes at Crease
+The plot is a scatter plot of Runs vs Balls faced and Minutes at Crease. A prediction plane is fitted
+
+```{r plot-3,cache=TRUE}
+par(mfrow=c(1,2))
+par(mar=c(4,4,2,2))
+battingPerf3d("./tendulkar.csv","Tendulkar")
+battingPerf3d("./kallis.csv","Kallis")
+```
+
+```{r plot-4,cache=TRUE}
+par(mfrow=c(1,2))
+par(mar=c(4,4,2,2))
+battingPerf3d("./ponting.csv","Ponting")
+battingPerf3d("./sangakkara.csv","Sangakkara")
+dev.off()
+```
+
+# Predicting Runs given Balls Faced and Minutes at Crease
+A multi-variate regression plane is fitted between Runs and Balls faced +Minutes at crease.
+```{r messages=FALSE,cache=TRUE}
+BF <- seq( 10, 400,length=15)
+Mins <- seq(30,600,length=15)
+newDF <- data.frame(BF,Mins)
+tendulkar <- batsmanRunsPredict("./tendulkar.csv","Tendulkar",newdataframe=newDF)
+kallis <- batsmanRunsPredict("./kallis.csv","Kallis",newdataframe=newDF)
+ponting <- batsmanRunsPredict("./ponting.csv","Ponting",newdataframe=newDF)
+sangakkara <- batsmanRunsPredict("./sangakkara.csv","Sangakkara",newdataframe=newDF)
+```
+
+The fitted model is then used to predict the runs that the batsmen will score for a given
+Balls faced and Minutes at crease. It can be seen Ponting has the will score the highest for a given Balls Faced and Minutes at crease.
+
+Ponting is followed  by Tendulkar who has Sangakkara close on his heels and finally we have Kallis. This is intuitive as we have already seen that Ponting has a highest strike rate.  
+
+```{r,cache=TRUE}
+batsmen <-cbind(round(tendulkar$Runs),round(kallis$Runs),round(ponting$Runs),round(sangakkara$Runs))
+colnames(batsmen) <- c("Tendulkar","Kallis","Ponting","Sangakkara")
+newDF <- data.frame(round(newDF$BF),round(newDF$Mins))
+colnames(newDF) <- c("BallsFaced","MinsAtCrease")
+predictedRuns <- cbind(newDF,batsmen)
+predictedRuns
+
+```
 
 # Analysis of Top 3 wicket takers
 The top 3 wicket takes in test history are 
@@ -265,8 +309,91 @@ bowlerMovingAverage("./murali.csv","M Muralitharan")
 dev.off()
 ```
 
-#Conclusion
-The plots above capture some of teh capabilities and features of my **cricketr** package. Feel free to install the package and try it out. Please do keep in mind ESPN Cricinfo's Terms of Use.
+## Future Wickets forecast 
+Here are plots that forecast how the bowler will perform in future. In this case 90% of the career wickets trend is used as the training set. the remaining 10% is the test set. 
+
+A Holt-Winters forecating model is used to forecast future performance based on the 90% training set. The forecated wickets trend is plotted. The test set is also plotted to see how close the forecast and the actual matches
+
+Take a look at the wickets forecasted for the bowlers below.
+- Shane Warne and Muralitharan have a fairly consistent forecast
+- Kumble forecast shows a small dip
+```{r kwm-perffcst}
+par(mfrow=c(1,3))
+par(mar=c(4,4,2,2))
+bowlerPerfForecast("./kumble.csv","Anil Kumble")
+bowlerPerfForecast("./warne.csv","Shane Warne")
+bowlerPerfForecast("./murali.csv","M Muralitharan")
+dev.off()
+```
+
+## Contribution to matches won and lost
+The plot below is extremely interesting
+1. Kumble wickets range from 2 to 4 wickets in matches wons with a mean of 3
+2. Warne wickets in won matches range from 1 to 4 with more matches won. Clearly there are other bowlers contributing to the wins, possibly the pacers
+3. Muralitharan wickets range in winning matches is more than the other 2 and ranges ranges 3 to 5 and clearly had a hand (pun unintended) in Sri Lanka's wins
+```{r kwm-wl,cache=TRUE}
+par(mfrow=c(1,3))
+par(mar=c(4,4,2,2))
+bowlerContributionWonLost(30176,"Kumble")
+bowlerContributionWonLost(8166,"Warne")
+bowlerContributionWonLost(49636,"Murali")
+dev.off()
+```
+
+## Check for bowler in-form/out-of-form
+The below computation uses Null Hypothesis testing and p-value to determine if the bowler is in-form or out-of-form. For this 90% of the career wickets is chosen as the population and the mean computed. The last 10% is chosen to be the sample set and the sample Mean and the sample Standard Deviation are caculated.
+
+The Null Hypothesis (H0) assumes that the bowler continues to stay in-form where the sample mean is within 95% confidence interval of population mean
+The Alternative (Ha) assumes that the bowler is out of form the sample mean is beyond the 95% confidence interval of the population mean.
+
+A significance value of 0.05 is chosen and p-value us computed
+If p-value >= .05 - Batsman In-Form
+If p-value < 0.05 - Batsman Out-of-Form
+
+**Note** Ideally the p-value should be done for a population that follows the Normal Distribution. But the runs population is usually left skewed. So some correction may be needed. I will revisit this later
+
+**Note:** The check for the form status of the bowlers indicate
+1. That both Kumble and Muralitharan were out of form. This also shows in the moving average plot
+2. Warne is still in great form and could have continued for a few more years. Too bad we didn't see the magic later
+```{r kwm}
+checkBowlerInForm("./kumble.csv","Anil Kumble")
+checkBowlerInForm("./warne.csv","Shane Warne")
+checkBowlerInForm("./murali.csv","M Muralitharan")
+dev.off()
+```
+
+
+# Conclusion
+The plots above capture some of the capabilities and features of my **cricketr** package. Feel free to install the package and try it out. Please do keep in mind ESPN Cricinfo's Terms of Use.
+
+Here are the main findings from the analysis above
+
+## Analysis of Top 4 batsman
+The analysis of the Top 4 test batsman Tendulkar, Kallis, Ponting and Sangakkara show the folliwing
+
+1. Sangakkara has the highest average, followed by Tendulkar, Kallis and then Ponting.
+2. Ponting has the highest strike rate followed by Tendulkar,Sangakkara and then Kallis
+3. The predicted runs for a given Balls faced and Minutes at crease is highest for Ponting, followed by Tendulkar, Sangakkara and Kallis
+4. The moving average for Tendulkar and Ponting shows a downward trend while Kallis and Sangakkara retired too soon
+5. Tendulkar was out of form about the time of retirement while the rest were in-form. But this result has to be taken along with the moving average plot. Ponting was clearly on the way out.
+
+##Analysis of Top 3 legs spinners
+The analysis of Anil Kumble, Shane Warne and M Muralitharan show the following
+
+1. Muralitharan has the highest wickets and best economy rate followed by Warne and Kumble
+2. Muralitharan  has higher wickets frequency percentage between 3 to 8 wickets
+3. Muralitharan has the best Economy Rate for wickets between 2 to 7
+4. The moving average plot shows that the time was up for Kumble and Muralitharan but Warne had a few years ahead
+5. The check for form status shows that Muralitharan and Kumble time was over while Warne still in great form
+
 
 Hope you have fun using the cricketr package as I had in developing it.
+
+Also see my other posts in R
+
+1. [A peek into literacy in India: Statistical Learning with R](https://gigadom.wordpress.com/2015/01/05/a-peek-into-literacy-in-india-statistical-learning-with-r/)
+2. [A crime map of India in R - Crimes against women](https://gigadom.wordpress.com/2015/01/16/a-crime-map-of-india-in-r-crime-against-women/)
+3. [Analyzing cricket's batting legends - Through the mirage with R](https://gigadom.wordpress.com/2015/02/06/analyzing-crickets-batting-legends-through-the-mirage-with-r/)
+4. [Masters of Spin: Unraveling the web with R](https://gigadom.wordpress.com/2015/02/23/masters-of-spin-unraveling-the-web-with-r/)
+5. [Mirror, mirror . the best batsman of them all?](https://gigadom.wordpress.com/2015/03/24/mirror-mirror-the-best-batsman-of-them-all/)
 
