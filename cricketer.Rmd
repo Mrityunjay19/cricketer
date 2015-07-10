@@ -2,7 +2,7 @@
 title: 'cricketr: A R package for analyzing performances of cricketers'
 author: "Tinniam V Ganesh"
 date: "Friday, July 03, 2015"
-output: html_document
+output: word_document
 ---
 *Yet all experience is an arch wherethro'  
 Gleams that untravell'd world whose margin fades  
@@ -437,8 +437,8 @@ Here are my final thoughts
 Among the 4 batsman Tendulkar, Kallis, Ponting and Sangakkara the clear leader is Tendulkar for the following reasons
 
 1. Tendulkar has the highest test centuries and runs of all time.Tendulkar's average is 2nd to Sangakkara, Tendulkar's predicted runs for a given Balls faced and Minutes at Crease is 2nd and is behind Ponting. Also Tendulkar's performance at home and overseas are consistent throughtout despite the fact that he has a highest number of overseas matches
-2. Ponting takes the 2nd spot with the 3rd highest number of centuries, 1st in Strike Rate and 2nd in home and away performance.
-3. The 3rd spot goes to Sangakkara, with the highest average, reasonable run frequency percentage in different run ranges. However he has a fewer number of matches overseas and his performance overseas is significantly lower than at home
+2. Ponting takes the 2nd spot with the 2nd highest number of centuries, 1st in Strike Rate and 2nd in home and away performance.
+3. The 3rd spot goes to Sangakkara, with the highest average, 3rd highest number of centuries, reasonable run frequency percentage in different run ranges. However he has a fewer number of matches overseas and his performance overseas is significantly lower than at home
 4. Kallis has the 2nd highest number of centuries but his performance overseas and strike rate are behind others
 5. Finally Kallis and Sangakkara had a few good years of batting still left in them (pity they retired!) while Tendulkar and Ponting's time was up
 
