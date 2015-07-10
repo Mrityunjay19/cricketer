@@ -2,7 +2,7 @@
 title: 'cricketr: A R package for analyzing performances of cricketers'
 author: "Tinniam V Ganesh"
 date: "Friday, July 03, 2015"
-output: word_document
+output: html_document
 ---
 *Yet all experience is an arch wherethro'  
 Gleams that untravell'd world whose margin fades  
@@ -64,15 +64,13 @@ The plots below show the 3D scatter plot of Sachin's Runs versus Balls Faced and
 battingPerf3d("./tendulkar.csv","Sachin Tendulkar")
 ```
 
-## Predict runs for batsman given Balls Faced and Minutes at Crease
-The above linear regression model can be used for predicting the runs for the batsman given the Balls Faced and Minutes at crease as follows
+## Average runs at different venues
+The plot below gives the average runs scored by Tendulkar at different grounds. The plot also the number of innings at each ground as a label at x-axis. It can be seen Tendulkar did great in  Colombo (SSC), Melbourne overseas and Mumbai, Mohali and Bangalore at home
 
-```{r}
-BF <- seq( 10, 100,length=10)
-Mins <- seq(30,200,length=10)
-newDF <- data.frame(BF,Mins)
-batsmanRunsPredict("./tendulkar.csv","Sachin Tendulkar",newdataframe=newDF)
+```{r tendulkar-avggrd,cache=TRUE}
+batsmanAvgRunsGround("./tendulkar.csv","Sachin Tendulkar")
 ```
+
 
 ## Highest Runs Likelihood
 The plot below shows the Runs Likelihood for a batsman. For this the performance of Sachin is plotted as a 3D scatter plot with Runs versus Balls Faced + Minutes at crease. K-Means. The centroids of 3 clusters are conputed and plotted.  In this plot Sachin Tendulkar's highest tendencies are computed and plotted using K-Means
@@ -181,7 +179,7 @@ batsmanMovingAverage("./sangakkara.csv","K Sangakkara")
 dev.off()
 ```
 
-# Future Runs forecast 
+## Future Runs forecast 
 Here are plots that forecast how the batsman will perform in future. In this case 90% of the career runs trend is uses as the training set. the remaining 10% is the test set. 
 
 A Holt-Winters forecating model is used to forecast future performance based on the 90% training set. The forecated runs trend is plotted. The test set is also plotted to see how close the forecast and the actual matches
@@ -223,7 +221,7 @@ checkBatsmanInForm("./sangakkara.csv","K Sangakkara")
 
 ```
 
-# 3D plot of Runs vs Balls Faced and Minutes at Crease
+## 3D plot of Runs vs Balls Faced and Minutes at Crease
 The plot is a scatter plot of Runs vs Balls faced and Minutes at Crease. A prediction plane is fitted
 
 ```{r plot-3,cache=TRUE}
@@ -241,7 +239,7 @@ battingPerf3d("./sangakkara.csv","Sangakkara")
 dev.off()
 ```
 
-# Predicting Runs given Balls Faced and Minutes at Crease
+## Predicting Runs given Balls Faced and Minutes at Crease
 A multi-variate regression plane is fitted between Runs and Balls faced +Minutes at crease.
 ```{r messages=FALSE,cache=TRUE}
 BF <- seq( 10, 400,length=15)
@@ -291,7 +289,7 @@ bowlerWktsFreqPercent("./murali.csv","M Muralitharan")
 dev.off()
 ```
 
-# Wickets Runs plot
+## Wickets Runs plot
 
 ```{r wktsrun,cache =TRUE}
 par(mfrow=c(1,3))
@@ -302,6 +300,13 @@ bowlerWktsRunsPlot("./murali.csv","Muralitharan")
 dev.off()
 ```
 
+## Average wickets at different venues
+The plot gives the average wickets taken by Muralitharan at different venues. Muralitharan has taken an average of 8 and 6 wickets at Oval & Wellington respectively in 2 different innings. His best performances are at Kandy and Colombo (SSC)
+
+```{r avgWktshrg,cache =TRUE}
+bowlerAvgWktsGround("./murali.csv","Muralitharan")
+
+```
 
 ## Relative Wickets Frequency Percentage
 The Relative Wickets Percentage plot shows that M Muralitharan has a large percentage of wickets in
@@ -313,7 +318,7 @@ names <- list("Anil KUmble","M Muralitharan","Shane Warne")
 relativeBowlingPerf(frames,names)
 ```
 
-# Relative Economy Rate against wickets taken
+## Relative Economy Rate against wickets taken
 Clearly from the plot below it can be seen that Muralitharan has the best Economy Rate among the
 three
 ```{r relBowlER,cache=TRUE}
@@ -327,6 +332,7 @@ From th eplot below it can be see
 1. Shane Warne's performance at the time of his retirement was still at a peak of 3 wickets
 2. M Muralitharan seems to have become ineffective over time with his peak years being 2004-2006
 3. Anil Kumble also seems to slump down and become less effective.
+
 ```{r tkps-bowlma,cache=TRUE}
 par(mfrow=c(1,3))
 par(mar=c(4,4,2,2))
@@ -359,6 +365,7 @@ The plot below is extremely interesting
 1. Kumble wickets range from 2 to 4 wickets in matches wons with a mean of 3
 2. Warne wickets in won matches range from 1 to 4 with more matches won. Clearly there are other bowlers contributing to the wins, possibly the pacers
 3. Muralitharan wickets range in winning matches is more than the other 2 and ranges ranges 3 to 5 and clearly had a hand (pun unintended) in Sri Lanka's wins
+
 ```{r kwm-wl,cache=TRUE}
 par(mfrow=c(1,3))
 par(mar=c(4,4,2,2))
@@ -368,7 +375,7 @@ bowlerContributionWonLost(49636,"Murali")
 dev.off()
 ```
 
-# Performance home and overseas
+## Performance home and overseas
 From the plot below it can be seen that Kumble has played more matches overseas than Warne or Muralitharan. Both Kumble and Warne show an average of 2 wickers overseas, though Kumble has more matches overseas. Murali on the other has an average of 2.5 wickets overseas but a slightly less number of matches than Kumble
 
 ```{r kwm-ha,cache=TRUE}
