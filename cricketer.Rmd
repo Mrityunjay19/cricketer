@@ -68,9 +68,15 @@ battingPerf3d("./tendulkar.csv","Sachin Tendulkar")
 The plot below gives the average runs scored by Tendulkar at different grounds. The plot also the number of innings at each ground as a label at x-axis. It can be seen Tendulkar did great in  Colombo (SSC), Melbourne overseas and Mumbai, Mohali and Bangalore at home
 
 ```{r tendulkar-avggrd,cache=TRUE}
-batsmanAvgRunsGround("./tendulkar.csv","Sachin Tendulkar")
+batsmanAvgRunsGround("./tendulkar.csv","Tendulkar")
 ```
 
+## Average runs against different opposing teams
+This plot computes the average runs scored by Tendulkar against different countries. The x-axis also gives the number of innings against each team
+
+```{r tendulkar-avgopn,cache=TRUE}
+batsmanAvgRunsOpposition("./tendulkar.csv","Tendulkar")
+```
 
 ## Highest Runs Likelihood
 The plot below shows the Runs Likelihood for a batsman. For this the performance of Sachin is plotted as a 3D scatter plot with Runs versus Balls Faced + Minutes at crease. K-Means. The centroids of 3 clusters are conputed and plotted.  In this plot Sachin Tendulkar's highest tendencies are computed and plotted using K-Means
@@ -305,6 +311,15 @@ The plot gives the average wickets taken by Muralitharan at different venues. Mu
 
 ```{r avgWktshrg,cache =TRUE}
 bowlerAvgWktsGround("./murali.csv","Muralitharan")
+
+```
+
+## Average wickets against different opposition
+The plot gives the average wickets taken by Muralitharan against different countries. The 
+x-axis also includes the number of innings against each team
+
+```{r avgWktoppn,cache =TRUE}
+bowlerAvgWktsOpposition("./murali.csv","Muralitharan")
 
 ```
 
