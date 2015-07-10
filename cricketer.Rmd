@@ -445,9 +445,11 @@ Among the 4 batsman Tendulkar, Kallis, Ponting and Sangakkara the clear leader i
 ## Bowling
 
 Muralitharan leads the way followed closely by Warne and finally Kumble. The reasons are
+
 1. Muralitharan has the highest number of test wickets with the best Wickets percentage and the best Economy Rate. Murali on average gas taken 4 wickets at home and 3 wickets overseas
 2. Warne follows Murali in the highest wickets taken, however Warne has less matches overseas than Murali and average 3 wickets home and 2 wickets overseas
 3. Kumble has the 3rd highest wickets, with 3 wickets on an average at home and 2 wickets overseas. However Kumble has played more matches overseas than the other two. In that respect his performance is great. Also Kumble has played less matches at home otherwise his numbers would have looked even better.
+4. Also while Kumble and Muralitharan's career was on the decline , Warne was going great and had a couple of years ahead.
 
 You can download this analysis at [Introducing cricketr](https://drive.google.com/file/d/0Bxz66bp5PxPBU3djRWtpM2hwZmM/view?usp=sharing)
 
