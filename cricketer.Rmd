@@ -83,7 +83,7 @@ batsmanAvgRunsGround("./tendulkar.csv","Tendulkar")
 ## Average runs against different opposing teams
 This plot computes the average runs scored by Tendulkar against different countries. The x-axis also gives the number of innings against each team
 
-```{r tendulkar-avgopn,cache=TRUE}
+```{r tendulkar-avgopn}
 batsmanAvgRunsOpposition("./tendulkar.csv","Tendulkar")
 ```
 
@@ -327,7 +327,7 @@ bowlerAvgWktsGround("./murali.csv","Muralitharan")
 The plot gives the average wickets taken by Muralitharan against different countries. The 
 x-axis also includes the number of innings against each team
 
-```{r avgWktoppn,cache =TRUE}
+```{r avgWktoppn}
 bowlerAvgWktsOpposition("./murali.csv","Muralitharan")
 
 ```
