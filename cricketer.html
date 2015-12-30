@@ -80,6 +80,8 @@ To rust unburnish’d, not to shine in use!</em></p>
 <p>So here it is. My R package <strong>‘cricketr!!!’</strong></p>
 <p>This package uses the statistics info available in <a href="http://stats.espncricinfo.com/ci/engine/stats/index.html">ESPN Cricinfo Statsguru</a>. The current version of this package only uses data from test cricket. I plan to develop functionality for One-day and Twenty20 cricket later.</p>
 <p>You should be able to install the package from GitHub and use the many functions available in the package. Please mindful of the <a href="http://www.espncricinfo.com/ci/content/site/company/terms_use.html">ESPN Cricinfo Terms of Use</a></p>
+<p>Take a look at my short video tutorial on my R package cricketr on Youtube - <a href="https://www.youtube.com/edit?o=U&amp;video_id=q9uMPFVsXsI">R package cricketr - A short tutorial</a></p>
+<p>Do check out my interactive Shiny app implementation using the cricketr package - <a href="https://tvganesh.shinyapps.io/Sixer">Sixer - R package cricketr’s new Shiny avatar</a></p>
 </div>
 <div id="the-cricketr-package" class="section level1">
 <h1>The <strong>cricketr</strong> package</h1>
@@ -87,14 +89,15 @@ To rust unburnish’d, not to shine in use!</em></p>
 <p>Other interesting functions include batting performance moving average, forecast and a function to check whether the batsmans in in-form or out-of-form.</p>
 <p>The data for a particular player can be obtained with the getPlayerData() function. To do you will need to go to <a href="http://www.espncricinfo.com/ci/content/player/index.html">ESPN CricInfo Player</a> and type in the name of the player for e.g Ricky Ponting, Sachin Tendulkar etc. This will bring up a page which have the profile number for the player e.g. for Sachin Tendulkar this would be <a href="http://www.espncricinfo.com/india/content/player/35320.html" class="uri">http://www.espncricinfo.com/india/content/player/35320.html</a>. Hence, Sachin’s profile is 35320. This can be used to get the data for Tendulkar as shown below</p>
 <p>The cricketr package is now available from <strong>CRAN!!!</strong> You should be able to install directly with</p>
-<pre class="r"><code>install.packages(&quot;cricketr&quot;,repos = 'http://cran.us.r-project.org')</code></pre>
-<pre><code>## 
-## The downloaded source packages are in
-##  'C:\Users\Ganesh\AppData\Local\Temp\Rtmpq4Fye7\downloaded_packages'</code></pre>
-<pre class="r"><code>library(cricketr)</code></pre>
+<pre class="r"><code>if (!require(&quot;cricketr&quot;)){
+    install.packages(&quot;cricketr&quot;,repos = 'http://cran.us.r-project.org')
+}
+library(cricketr)</code></pre>
 <p>can be installed from GitHub with</p>
-<pre class="r"><code>library(devtools)
-install_github(&quot;tvganesh/cricketr&quot;)
+<pre class="r"><code>if (!require(&quot;cricketr&quot;)){
+  library(devtools)
+  install_github(&quot;tvganesh/cricketr&quot;)
+}
 library(cricketr)
 tendulkar &lt;- getPlayerData(35320,dir=&quot;..&quot;,file=&quot;tendulkar.csv&quot;,type=&quot;batting&quot;,homeOrAway=c(1,2),  result=c(1,2,4))</code></pre>
 <p><strong>Important Note</strong> This needs to be done only once for a player. This function stores the player’s data in a CSV file (for e.g. tendulkar.csv as above) which can then be reused for all other functions. Once we have the data for the players many analyses can be done. This post will use the stored CSV file obtained with a prior getPlayerData for all subsequent analyses</p>

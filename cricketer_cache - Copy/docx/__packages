@@ -1,0 +1,12 @@
+base
+devtools
+dplyr
+plotrix
+ggplot2
+scatterplot3d
+zoo
+timeDate
+forecast
+lubridate
+XML
+cricketr
