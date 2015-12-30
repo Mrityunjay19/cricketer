@@ -28,13 +28,20 @@ Other interesting functions include batting performance moving average, forecast
 
 The data for a particular player can be obtained with the getPlayerData() function. To do you will need to go to [ESPN CricInfo Player](http://www.espncricinfo.com/ci/content/player/index.html) and type in the name of the player for e.g Ricky Ponting, Sachin Tendulkar etc. This will bring up a page which have the profile number for the player e.g. for Sachin Tendulkar this would be http://www.espncricinfo.com/india/content/player/35320.html. Hence, Sachin's profile is 35320. This can be used to get the data for Tendulkar as shown below
 
-The cricketr package can be installed from GitHub with
+The cricketr package is now available from **CRAN!!!** You should be able to install directly with
+
+```{r message=FALSE,warning=FALSE}
+install.packages("cricketr",repos = 'http://cran.us.r-project.org')
+library(cricketr)
+
+```
+
+can be installed from GitHub with
 ```{r message=FALSE,warning=FALSE}
 library(devtools)
 install_github("tvganesh/cricketr")
 library(cricketr)
-tendulkar <- getPlayerData(35320,dir="..",file="tendulkar.csv",type="batting",homeOrAway=c(1,2),
-                          result=c(1,2,4))
+tendulkar <- getPlayerData(35320,dir="..",file="tendulkar.csv",type="batting",homeOrAway=c(1,2),  result=c(1,2,4))
 ```
 
 **Important Note**
@@ -119,19 +126,28 @@ batsmanPerfBoxHist("./sangakkara.csv","K Sangakkara")
 
 ## Contribution to won and lost matches
 The plot below shows the contribution of Tendulkar, Kallis, Ponting and Sangakarra in matches won and lost. The plots show the range of runs scored as a boxplot (25th & 75th percentile) and the mean
-scored. The total matches won and lost are also printed in the plot.
+scored. The total matches won and lost are also printed in the plot. 
 
 All the players have scored more in the matches they won than the matches they lost.
 Ricky Ponting is the only batsman who seems to have more matches won to his credit than others.
 This could also be because he was a member of strong Australian team
 
+For the 2 functions below you will have to use the getPlayerDataSp() function. I 
+have commented this as I already have these files
+```{r}
+#tendulkarsp <- getPlayerDataSp(35320,tdir=".",tfile="tendulkarsp.csv",ttype="batting")
+#kallissp <- getPlayerDataSp(45789,tdir=".",tfile="kallissp.csv",ttype="batting")
+#pontingsp <- getPlayerDataSp(7133,tdir=".",tfile="pontingsp.csv",ttype="batting")
+#sangakkarasp <- getPlayerDataSp(50710,tdir=".",tfile="sangakkarasp.csv",ttype="batting")
+```
+
 ```{r tkps-wonlost,cache=TRUE}
 par(mfrow=c(2,2))
 par(mar=c(4,4,2,2))
-batsmanContributionWonLost("35320","Tendulkar")
-batsmanContributionWonLost("45789","Kallis")
-batsmanContributionWonLost("7133","Ponting")
-batsmanContributionWonLost("50710","Sangakarra")
+batsmanContributionWonLost("tendulkarsp.csv","Tendulkar")
+batsmanContributionWonLost("kallissp.csv","Kallis")
+batsmanContributionWonLost("pontingsp.csv","Ponting")
+batsmanContributionWonLost("sangakkarasp.csv","Sangakarra")
 dev.off()
 
 ```
@@ -142,14 +158,14 @@ From the plot below it can be seen
 Tendulkar has more matches overseas than at home and his performace is consistent in all venues
 at home or abroad. Ponting has lesser innings than Tendulkar and has an equally good performance at home and overseas.Kallis and Sangakkara's performance abroad is lower than the performance at home.
 
-
+This function also requires the use of getPlayerDataSp() as shown above
 ```{r tkps-homeaway,cache=TRUE}
 par(mfrow=c(2,2))
 par(mar=c(4,4,2,2))
-batsmanPerfHomeAway("35320","Tendulkar")
-batsmanPerfHomeAway("45789","Kallis")
-batsmanPerfHomeAway("7133","Ponting")
-batsmanPerfHomeAway("50710","Sangakarra")
+batsmanPerfHomeAway("tendulkarsp.csv","Tendulkar")
+batsmanPerfHomeAway("kallissp.csv","Kallis")
+batsmanPerfHomeAway("pontingsp.csv","Ponting")
+batsmanPerfHomeAway("sangakkarasp.csv","Sangakarra")
 dev.off()
 
 ```
@@ -390,12 +406,20 @@ The plot below is extremely interesting
 2. Warne wickets in won matches range from 1 to 4 with more matches won. Clearly there are other bowlers contributing to the wins, possibly the pacers
 3. Muralitharan wickets range in winning matches is more than the other 2 and ranges ranges 3 to 5 and clearly had a hand (pun unintended) in Sri Lanka's wins
 
+As discussed above the next 2 charts require the use of getPlayerDataSp()
+```{r}
+#kumblesp <- getPlayerDataSp(30176,tdir=".",tfile="kumblesp.csv",ttype="bowling")
+#warnesp <- getPlayerDataSp(8166,tdir=".",tfile="warnesp.csv",ttype="bowling")
+#muralisp <- getPlayerDataSp(49636,tdir=".",tfile="muralisp.csv",ttype="bowling")
+```
+
+
 ```{r kwm-wl,cache=TRUE}
 par(mfrow=c(1,3))
 par(mar=c(4,4,2,2))
-bowlerContributionWonLost(30176,"Kumble")
-bowlerContributionWonLost(8166,"Warne")
-bowlerContributionWonLost(49636,"Murali")
+bowlerContributionWonLost("kumblesp.csv","Kumble")
+bowlerContributionWonLost("warnesp.csv","Warne")
+bowlerContributionWonLost("muralisp.csv","Murali")
 dev.off()
 ```
 
@@ -405,9 +429,9 @@ From the plot below it can be seen that Kumble has played more matches overseas 
 ```{r kwm-ha,cache=TRUE}
 par(mfrow=c(1,3))
 par(mar=c(4,4,2,2))
-bowlerPerfHomeAway(30176,"Kumble")
-bowlerPerfHomeAway(8166,"Warne")
-bowlerPerfHomeAway(49636,"Murali")
+bowlerPerfHomeAway("kumblesp.csv","Kumble")
+bowlerPerfHomeAway("warnesp.csv","Warne")
+bowlerPerfHomeAway("muralisp.csv","Murali")
 dev.off()
 ```
 
