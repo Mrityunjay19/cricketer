@@ -36,20 +36,37 @@ The cricketr package is now available from **CRAN!!!** You should be able to ins
 
 ```{r message=FALSE,warning=FALSE}
 if (!require("cricketr")){
-    install.packages("cricketr",repos = 'http://cran.us.r-project.org')
+    install.packages("cricketr",lib = "c:/test")
 }
 library(cricketr)
 
 ```
 
-can be installed from GitHub with
+The cricketr package includes some pre-packaged sample (.csv) files. You can use these sample to test functions  as shown below
+
+```{r }
+# Retrieve the file path of a data file installed with cricketr
+pathToFile <- system.file("data", "tendulkar.csv", package = "cricketr")
+batsman4s(pathToFile, "Sachin Tendulkar")
+
+# The general format is pkg-function(pathToFile,par1,...)
+#batsman4s(<path-To-File>,"Sachin Tendulkar")
+```
+Alternatively, the cricketr package can be installed from GitHub with
+
 ```{r message=FALSE,warning=FALSE}
 if (!require("cricketr")){
   library(devtools)
   install_github("tvganesh/cricketr")
 }
 library(cricketr)
-tendulkar <- getPlayerData(35320,dir="..",file="tendulkar.csv",type="batting",homeOrAway=c(1,2),  result=c(1,2,4))
+```
+The pre-packaged files can be accessed as shown above.
+To get the data of any player use the function getPlayerData()
+
+```{r}
+tendulkar <- getPlayerData(35320,dir="..",file="tendulkar.csv",type="batting",homeOrAway=c(1,2),
+                           result=c(1,2,4))
 ```
 
 **Important Note**
