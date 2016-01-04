@@ -13,11 +13,12 @@ To rust unburnish'd, not to shine in use!*
                 Ulysses by Alfred Tennyson
                 
 #Introduction
-This is an introductory post in which I introduce a cricketing package **'cricketr'** whicj I have created. This package was a natural culmination to many earlier posts on cricketers and my completing 9 modules of an absorbing topics in Data Science Specialization, from John Hopkins University at Coursera. The thought of creating this package struck me some time back,  and I have finally been able to bring this to fruition. 
+This is an introductory post in which I introduce a cricketing package **'cricketr'** whicj I have created. This package was a natural culmination to many earlier posts on cricketers and my completing 10 modules of an absorbing topics in Data Science Specialization, from John Hopkins University at Coursera. The thought of creating this package struck me some time back,  and I have finally been able to bring this to fruition. 
 
 So here it is. My R package **'cricketr!!!'**
 
-This package uses the statistics info available in [ESPN Cricinfo Statsguru](http://stats.espncricinfo.com/ci/engine/stats/index.html). The current version of this package only uses data from test cricket. I plan to develop functionality for One-day and Twenty20 cricket later.
+This package uses the statistics info available in [ESPN Cricinfo Statsguru](http://stats.espncricinfo.com/ci/engine/stats/index.html). The current version of this package supports all formats of the game including Test, ODI and
+Twenty20 versions. 
 
 You should be able to install the package from GitHub and use the many functions available in the package. Please mindful of the [ESPN Cricinfo Terms of Use](http://www.espncricinfo.com/ci/content/site/company/terms_use.html) 
 
@@ -26,7 +27,7 @@ Take a look at my short video tutorial on my R package cricketr on Youtube - [R 
 Do check out my interactive Shiny app implementation using the cricketr package - [Sixer - R package cricketr's new Shiny avatar](https://tvganesh.shinyapps.io/Sixer)
 
 #The **cricketr** package
-The cricketr package has several functions that perform several different analyses on both batsman and bowlers. The package has function that plot  percentage frequency runs or wickets, runs likelihood for a batsman, relative run/strike rates of batsman and relative performance/econmony rate for bowlers are available. 
+The cricketr package has several functions that perform several different analyses on both batsman and bowlers. The package has function that plot  percentage frequency runs or wickets, runs likelihood for a batsman, relative run/strike rates of batsman and relative performance/economy rate for bowlers are available. 
 
 Other interesting functions include batting performance moving average, forecast  and a function to check whether the batsmans in in-form or out-of-form.
 
